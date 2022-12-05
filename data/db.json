@@ -1,0 +1,34 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Learn Vue 3",
+      "isFav": false,
+      "isDone": true
+    },
+    {
+      "id": 2,
+      "title": "Learn Pina",
+      "isFav": true,
+      "isDone": false
+    },
+    {
+      "id": 3,
+      "title": "Lear React",
+      "isFav": true,
+      "isDone": true
+    },
+    {
+      "id": 4,
+      "title": "Learn Angular",
+      "isFav": false,
+      "isDone": true
+    },
+    {
+      "id": 5,
+      "title": "Learn GoLang",
+      "isFav": false,
+      "isDone": false
+    }
+  ]
+}

@@ -1,14 +1,10 @@
 import {defineStore} from "pinia";
 
+
 export const useTaskStore = defineStore('taskStore', {
     state: () => ({
-        tasks: [
-            {id: 1, title: "Learn Vue 3", isFav: false, isDone: true},
-            {id: 2, title: "Learn Pina", isFav: true, isDone: false},
-            {id: 3, title: "Lear React", isFav: true, isDone: true},
-            {id: 4, title: "Learn Angular", isFav: false, isDone: true},
-            {id: 5, title: "Learn GoLang", isFav: false, isDone: false},
-        ]
+        tasks: [],
+        loading: false
     }),
     getters: {
         favs() {
@@ -40,19 +36,57 @@ export const useTaskStore = defineStore('taskStore', {
         }
     },
     actions : {
-        addTask(task) {
+        async getTasks() {
+            try {
+                this.loading = true;
+                const res = await fetch('http://localhost:3000/tasks');
+                this.tasks = await res.json();
+                this.loading = false;
+            }
+            catch (e) {
+                console.error(e);
+            }
+        },
+        async addTask(task) {
             this.tasks.push(task);
+
+            const res = await fetch('http://localhost:3000/tasks', {
+                method: 'POST',
+                body: JSON.stringify(task)
+            });
+
+            if (res.error) {
+                console.log(res.error);
+            }
         },
-        deleteTask(id) {
+        async deleteTask(id) {
             this.tasks = this.tasks.filter(t => t.id !== id);
+
+            const res = await fetch('http://localhost:3000/tasks/' + id, {
+                method: 'DELETE'
+            });
+
+            if (res.error) {
+                console.log(res.error);
+            }
         },
-        toggleFav(id) {
+        async toggleFav(id) {
             const task = this.tasks.find(t => t.id === id);
             task.isFav = !task.isFav;
+
+            const res = await fetch('https://localhost:3000/tasks' + id, {
+                method: 'PATCH',
+                body: JSON.stringify({isFav: task.isFav})
+            })
         },
-        toggleDone(id) {
+        async toggleDone(id) {
             const task = this.tasks.find(t => t.id === id);
             task.isDone = !task.isDone;
+
+            const res = await fetch('https://localhost:3000/tasks' + id, {
+                method: 'PATCH',
+                body: JSON.stringify({isDone: task.isDone})
+            })
         },
     }
 })

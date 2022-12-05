@@ -8,7 +8,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "json-server": "^0.17.1",
     "pinia": "^2.0.26",
+    "save-dev": "^0.0.1-security",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },

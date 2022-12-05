@@ -4,6 +4,8 @@
     <button @click="filter = 'fav'">Favs tasks</button>
   </nav>
 
+  <div class="loading" v-if="loading">Loading ...</div>
+
   <div class="task-list" v-if="filter === 'all'">
     <p>You have {{ totalCount }} tasks</p>
     <div v-for="task in tasks">
@@ -40,7 +42,9 @@ import {ref} from "vue";
 import {storeToRefs} from "pinia";
 
 const taskStore = useTaskStore();
-const {tasks, done, unDone, favs, doneCount, favCount, totalCount, undoneCount} = storeToRefs(taskStore);
+taskStore.getTasks();
+
+const {tasks, done, unDone, favs, doneCount, favCount, totalCount, undoneCount, loading} = storeToRefs(taskStore);
 const filter = ref('all');
 </script>
 
